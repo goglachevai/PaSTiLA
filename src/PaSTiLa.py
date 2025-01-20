@@ -49,7 +49,7 @@ def pastila(input_filename, min_m, max_m, K, step=1, output_filename="output.pkl
         snippets = []
         for m in m_to_proccess:
             snp = pastila_kernel(ts_gpu, n, m, K)
-            snippets.append()
+            snippets.append(snp)
 
         gathered_snippets = comm.gather(cp.asnumpy(snippets), root=0)
 
@@ -68,7 +68,7 @@ def pastila(input_filename, min_m, max_m, K, step=1, output_filename="output.pkl
             with open(output_filename, "wb") as f:
                 pickle.dump(best_snp, f)
         else:
-            return snp
+            return best_snp
 
     else:
         ts = comm.Bcast([ts, MPI.DOUBLE], root=0)
@@ -80,6 +80,6 @@ def pastila(input_filename, min_m, max_m, K, step=1, output_filename="output.pkl
         snippets = []
         for m in m_to_proccess:
             snp = pastila_kernel(ts_gpu, n, m, K)
-            snippets.append()
+            snippets.append(snp)
 
         comm.gather(cp.asnumpy(snippets), root=0)
